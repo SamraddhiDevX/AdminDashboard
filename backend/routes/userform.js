@@ -1,11 +1,9 @@
-// routes/reportRoutes.js
-
 import express from 'express';
 import Report from '../models/Report.js';
 
 const router = express.Router();
 
-// Submit report
+
 router.post('/report', async (req, res) => {
   try {
     const { ngoId, month, peopleHelped, eventsConducted, fundsUtilized } = req.body;
