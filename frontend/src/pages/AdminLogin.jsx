@@ -29,23 +29,30 @@ export default function AdminLogin() {
 }, [navigate]);
 
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError(''); // reset previous error
-    try {
-      const res = await axiosIns.post(
-        '/auth/login',
-        { username, password },
-        { withCredentials: true }
-      );
-      if (res.status === 200) {
-        navigate('/dashboard');
-      }
-    } catch (err) {
-      setError('Invalid username or password');
-      toast.error('Login Failed');
+const handleLogin = async (e) => {
+  e.preventDefault();
+  setError('');
+  try {
+    const res = await axiosIns.post(
+      '/auth/login',
+      { username, password },
+      { withCredentials: true }
+    );
+
+    if (res.status === 200) {
+      toast.success("Login successful!");
+      navigate('/dashboard');
+    } else {
+      // Even 202 shouldn't allow navigation
+      throw new Error("Unexpected status code");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    setError('Invalid username or password');
+    toast.error('Login Failed');
+  }
+};
+
 
   return (
     <div className="max-w-md mx-auto mt-20 p-6 border rounded shadow">
