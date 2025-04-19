@@ -10,12 +10,13 @@ const router = express.Router();
 
 const generateToken = (res, userId) => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1d' });
- console.log("token:", token);
-res.cookie('token', token, {
-  httpOnly: true,
-  sameSite: 'None', // <- Important for cross-origin
-  secure: true,     // <- Must be true in production (HTTPS)
-});
+  console.log("token:", token);
+  res.cookie('token', token, {
+    httpOnly: true,
+    sameSite: 'None',
+    secure: true,
+  });
+};
 
 
 
