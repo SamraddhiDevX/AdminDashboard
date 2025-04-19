@@ -15,8 +15,6 @@ export default function AdminLogin() {
       const res = await axiosIns.get('/auth/check', {
         withCredentials: true,
       });
-
-      // ONLY redirect if you're sure a valid user is returned
       if (res.status === 200 && res.data && res.data.username) {
         navigate('/dashboard');
       }
@@ -44,7 +42,6 @@ const handleLogin = async (e) => {
       toast.success("Login successful!");
       navigate('/dashboard');
     } else {
-      // Even 202 shouldn't allow navigation
       throw new Error("Unexpected status code");
     }
   } catch (err) {
