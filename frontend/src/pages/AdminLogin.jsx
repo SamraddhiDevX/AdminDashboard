@@ -9,23 +9,25 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  // Check if user is already authenticated
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const res = await axiosIns.get('/auth/check', {
-          withCredentials: true,
-        });
-        if (res.status === 200) {
-          navigate('/dashboard');
-        }
-      } catch (err) {
-        // You can log it or show a toast; just don't crash the UI
-        toast.info('Please login to continue');
+ useEffect(() => {
+  const checkAuth = async () => {
+    try {
+      const res = await axiosIns.get('/auth/check', {
+        withCredentials: true,
+      });
+      if (res.status === 200) {
+        // If authenticated, navigate to dashboard
+        navigate('/dashboard');
       }
-    };
-    checkAuth();
-  }, [navigate]);
+    } catch (err) {
+      // Show error message if the user is not authenticated
+      toast.info('Please login to continue');
+      console.error("Not authenticated:", err);
+    }
+  };
+  checkAuth();
+}, [navigate]);
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
