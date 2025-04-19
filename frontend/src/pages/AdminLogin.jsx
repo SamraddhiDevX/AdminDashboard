@@ -15,18 +15,19 @@ export default function AdminLogin() {
       const res = await axiosIns.get('/auth/check', {
         withCredentials: true,
       });
-      if (res.status === 200) {
-        // If authenticated, navigate to dashboard
+
+      // ONLY redirect if you're sure a valid user is returned
+      if (res.status === 200 && res.data && res.data.username) {
         navigate('/dashboard');
       }
     } catch (err) {
-      // Show error message if the user is not authenticated
-      toast.info('Please login to continue');
-      console.error("Not authenticated:", err);
+      console.log('Not authenticated');
     }
   };
+
   checkAuth();
-}, [navigate]);
+}, []);
+
 
 
 const handleLogin = async (e) => {
