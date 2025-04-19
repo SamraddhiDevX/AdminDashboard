@@ -19,8 +19,6 @@ const generateToken = (res, userId) => {
 };
 
 
-
-// @route POST /api/auth/login
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -48,7 +46,14 @@ router.post('/login', async (req, res) => {
 
 router.post('/logout', (req, res) => {
     try {
-        res.cookie("jwt", "", { maxAge: 0 });
+      res.cookie("token", "", {
+  httpOnly: true,
+  sameSite: 'None',
+  secure: true,
+  expires: new Date(0) 
+});
+res.status(200).json({ message: "Logged out successfully!" });
+
         res.status(200).json({ message: "Logged out successfully!" });
     } catch (error) {
         console.log("Error in signout", error.message);
