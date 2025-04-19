@@ -11,6 +11,8 @@ import auth from './routes/auth.js';
 
 dotenv.config();
 
+console.log('Frontend URL:', process.env.FRONTEND_URL);
+
 const app = express();
 const PORT = process.env.PORT;
 
