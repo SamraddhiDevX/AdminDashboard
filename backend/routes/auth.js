@@ -7,13 +7,14 @@ import protectRoute from '../middleware/protectRoute.js';
 
 const router = express.Router();
 
-// Generate JWT token
+
 const generateToken = (res, userId) => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
   res.cookie('jwt', token, {
     httpOnly: true,
-    secure: true,
-  sameSite: 'None',
+    secure: process.env.NODE_ENV === 'production', // Only true for HTTPS
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
     maxAge: 24 * 60 * 60 * 1000,
   });
 };
